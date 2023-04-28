@@ -1,5 +1,13 @@
 #include "shell.h"
 
+/**
+ * Auth: Emma Udeji
+ * 		 Pericles Adjovi
+ *
+ * Description:
+ * the extended functions for main.c
+ */
+
 
 /** parse_command - determines the type of the command
  * @command: command to be parsed
@@ -25,7 +33,7 @@ int parse_command(char *command)
 	}
 	for (i = 0; internal_command[i] != NULL; i++)
 	{
-		if (strcmp(command, internal_command[i]) == 0)
+		if (_strcmp(command, internal_command[i]) == 0)
 			return (INTERNAL_COMMAND);
 	}
 	/* @check_path - checks if a command is found in the PATH */
@@ -52,7 +60,7 @@ void execute_command(char **tokenized_command, int command_type)
 
 	if (command_type == EXTERNAL_COMMAND)
 	{
-		if (execve(tokenized_command[0], tokenized_command, environ) == -1)
+		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -60,7 +68,7 @@ void execute_command(char **tokenized_command, int command_type)
 	}
 	if (command_type == PATH_COMMAND)
 	{
-		if (execve(check_path(tokenized_command[0]), tokenized_command, environ) == -1)
+		if (execve(check_path(tokenized_command[0]), tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -94,9 +102,9 @@ char *check_path(char *command)
 	char *path = _getenv("PATH");
 	int i;
 
-	if (path == NULL || strlen(path) == 0)
+	if (path == NULL || _strlen(path) == 0)
 		return (NULL);
-	path_cpy = malloc(sizeof(*path_cpy) * (strlen(path) + 1));
+	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
 	_strcpy(path, path_cpy);
 	path_array = tokenizer(path_cpy, ":");
 	for (i = 0; path_array[i] != NULL; i++)
@@ -133,7 +141,7 @@ void (*get_func(char *command))(char **)
 
 	for (i = 0; i < 2; i++)
 	{
-		if (strcmp(command, mapping[i].command_name) == 0)
+		if (_strcmp(command, mapping[i].command_name) == 0)
 			return (mapping[i].func);
 	}
 	return (NULL);

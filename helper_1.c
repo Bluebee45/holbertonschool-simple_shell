@@ -1,6 +1,25 @@
 #include "shell.h"
 
- 
+/**
+ *_strcmp - compare two strings
+ *@first: first string to be compared
+ *@second: second string to be compared
+ *
+ * Return: difference of the two strings
+ */
+
+int _strcmp(char *first, char *second)
+{
+	int i = 0;
+
+	while (first[i] != '\0')
+	{
+		if (first[i] != second[i])
+			break;
+		i++;
+	}
+	return (first[i] - second[i]);
+}
 
 /**
  *_strcat - concatenates two strings
@@ -13,8 +32,8 @@
 char *_strcat(char *destination, char *source)
 {
 	char *new_string =  NULL;
-	int len_dest = strlen(destination);
-	int len_source = strlen(source);
+	int len_dest = _strlen(destination);
+	int len_source = _strlen(source);
 
 	new_string = malloc(sizeof(*new_string) * (len_dest + len_source + 1));
 	_strcpy(destination, new_string);
@@ -70,6 +89,16 @@ int _strcspn(char *str1, char *str2)
 
 
 
+
+
+
+
+
+
+
+
+
+
 /**
  *_strchr - locates a char in a string
  *@s: string to be searched
@@ -88,38 +117,4 @@ char *_strchr(char *s, char c)
 		return (s + i);
 	else
 		return (NULL);
-}
-
-
-/**
- *_strcpy - copies a string to another buffer
- *@source: source to copy from
- *@dest: destination to copy to
- *
- * Return: void
- */
-
-void _strcpy(char *source, char *dest)
-{
-	int i = 0;
-
-	for (; source[i] != '\0'; i++)
-		dest[i] = source[i];
-	dest[i] = '\0';
-}
-
-
-/**
- *print - prints a string to stdout
- *@string: string to be printed
- *@stream: stream to print out to
- *
- *Return: void, return nothing
- */
-void print(char *string, int stream)
-{
-	int i = 0;
-
-	for (; string[i] != '\0'; i++)
-		write(stream, &string[i], 1);
 }

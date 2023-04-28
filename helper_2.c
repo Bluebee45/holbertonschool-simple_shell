@@ -22,14 +22,14 @@ char *_strtok_r(char *string, char *delim, char **save_ptr)
 		return (NULL);
 	}
 
-	string += strspn(string, delim);
+	string += _strspn(string, delim);
 	if (*string == '\0')
 	{
 		*save_ptr = string;
 		return (NULL);
 	}
 
-	finish = string + strcspn(string, delim);
+	finish = string + _strcspn(string, delim);
 	if (*finish == '\0')
 	{
 		*save_ptr = finish;
@@ -105,3 +105,35 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	}
 }
 
+/**
+ * ctrl_c_handler - handles the signal raised by CTRL-C
+ * @signum: signal number
+ *
+ * Return: void
+ */
+void ctrl_c_handler(int signum)
+{
+	if (signum == SIGINT)
+		print("\n($) ", STDIN_FILENO);
+}
+
+/**
+ * remove_comment - removes/ignores everything after a '#' char
+ * @input: input to be used
+ *
+ * Return: void
+ */
+void remove_comment(char *input)
+{
+	int i = 0;
+
+	if (input[i] == '#')
+		input[i] = '\0';
+	while (input[i] != '\0')
+	{
+		if (input[i] == '#' && input[i - 1] == ' ')
+			break;
+		i++;
+	}
+	input[i] = '\0';
+}
